@@ -1,7 +1,13 @@
 # https://stepik.org/lesson/349845/step/1?unit=333700
-
 import time
 
+Help = """
+Это игра, в которой требуется угадать число,
+загаданное компьютером в диапазоне чисел от 1 до 100. После ввода числа
+даётся информация, больше или меньше введенное число, чем загаданное,
+и так до тех пор, пока число не будет угадано. По завершению
+игра показывает среднее арифметическое число попыток для диапазона.'
+"""
 
 def menu(game_num):
     """
@@ -22,17 +28,42 @@ def menu(game_num):
     decoration_2("  3)Помощь", )
     decoration_2("  4)Выход")
     decoration('', '-')
-    number = fool_protect_menu()
+    number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        print(1)
+        pass
     elif number == 2:
-        print(2)
+        pass
     elif number == 3:
-        print(3)
+        print(Help)
+        time.sleep(1)
+        menu(game_num)
     elif number == 4:
         print("Спасибо за игру!")
         time.sleep(1)
         exit()
+
+
+def fool_protect_menu(number):
+    """
+    Является ли значение числом из меню.
+    :return:
+    """
+    flag = True
+    while flag:
+        try:
+            if int(number) and int(number) in range(1, 5):
+                flag = False
+            elif int(number) < 0 or int(number) > 4:
+                print("Введен не верный номер, введите номер из меню")
+                number = input("Выберете номер в меню: ")
+        except:
+            if number.isalpha():
+                print("Введены буквы, введите номер из меню")
+                number = input("Выберете номер в меню: ")
+            else:
+                print("Введены непонятные символа, введите номер из меню")
+                number = input("Выберете номер в меню: ")
+    return int(number)
 
 
 def decoration(word, symbol):
@@ -77,27 +108,6 @@ def is_valid():
     :return:
     """
     pass
-
-
-def fool_protect_menu():
-    """
-    Является ли значение числом из меню.
-    :return:
-    """
-    flag = True
-    while flag:
-        number = input("Выберете номер в меню: ")
-        try:
-            if int(number) and int(number) in range(1, 5):
-                flag = False
-            elif int(number) < 0 or int(number) > 4:
-                print("Введен не верный номер, введите номер из меню")
-        except:
-            if number.isalpha():
-                print("Введены буквы, введите номер из меню")
-            else:
-                print("Введены непонятные символа, введите номер из меню")
-    return int(number)
 
 
 def game():
