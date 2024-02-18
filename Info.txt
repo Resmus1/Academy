@@ -1,0 +1,12 @@
+Documentation:
+https://docs.python.org
+
+Turtle RU:
+https://digitology.tech/docs/python_3/library/turtle.html
+
+Course of Python:
+https://github.com/mipt-cs/course-site-python3/wiki
+
+Laboratory work:
+https://judge.mipt.ru/mipt_cs_on_python3
+https://mipt-cs.github.io/python3-2017-2018/

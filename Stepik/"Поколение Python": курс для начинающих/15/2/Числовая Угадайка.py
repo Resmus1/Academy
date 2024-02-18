@@ -7,3 +7,21 @@ def menu():
     :return:
     """
     pass
+
+def decoration():
+    pass
+
+
+def score():
+    pass
+
+
+
+def is_valid():
+    pass
+
+def game():
+    pass
+
+def level():
+    pass
