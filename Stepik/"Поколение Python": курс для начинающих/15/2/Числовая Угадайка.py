@@ -100,7 +100,6 @@ def fool_protect_menu():
     return int(number)
 
 
-
 def game():
     pass
 
