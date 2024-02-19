@@ -64,7 +64,7 @@ def menu_level(game_num):
     if number == 1:
         random_num = int(randint(1, 31))
         print(random_num)
-        while check_answer(random_num, is_valid()):
+        while check_answer(random_num, is_valid()):  # разобраться с павтором при неправильных и правильных ответахъ
             game_num += 1  # создать счетчик не работает
 
         # attempt = 0
