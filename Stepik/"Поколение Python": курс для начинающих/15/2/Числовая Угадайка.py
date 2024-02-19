@@ -1,6 +1,5 @@
 # https://stepik.org/lesson/349845/step/1?unit=333700
 import time
-from random import randint
 
 Help = """
 Это игра, в которой требуется угадать число,
@@ -62,53 +61,13 @@ def menu_level(game_num):
     decoration('', '-')
     number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        random_num = int(randint(1, 31))
-        print(random_num)
-        while check_answer(random_num, is_valid()):
-            game_num += 1  # создать счетчик не работает
-
-        # attempt = 0
-        # number = input()
-        # print(number)
-        # while True:
-        #     print(f"Это число!, {random_num}\nПопытка №{attempt}")
-        #     number = is_valid()
-        #     attempt += 1
-            # if answer:
-            #     if check_answer(answer):
-            #         game_count += 1
-            #         attempt = 0
-            #     else:
-            #         game_count = 0  # Доработать не хочет считать нормально!
-
+        pass
     elif number == 2:
         pass
     elif number == 3:
         pass
     elif number == 4:
         menu(game_num)
-
-
-def check_answer(random_num, answer_number):
-    """
-    Сверка ответа с введенным числом.
-    :return:
-    """
-    answer_number = int(answer_number)
-    if answer_number < random_num:
-        print("Ваше число меньше загаданного, попробуйте еще разок")
-    elif answer_number > random_num:
-        print("Ваше число больше загаданного, попробуйте еще разок")
-    else:
-        print("Вы угадали, поздравляем!\nПродолжить игру?")
-        return False
-    # Разобраться с прохождением дальше по игре и количеству игр
-    #     next = is_valid_yes_no()
-    #     if next:
-    #         return True
-    #     elif not next:
-    #         menu(game_count)
-
 
 
 def fool_protect_menu(number):
@@ -132,27 +91,6 @@ def fool_protect_menu(number):
                 print("Введены непонятные символа, введите номер из меню")
                 number = input("Выберете номер в меню: ")
     return int(number)
-
-
-def is_valid():
-    """
-    Проверяет введенное значение,
-    cоответствует ли значение ответу и параметрам
-    :return:
-    """
-    while True:
-        answer = input("Введите число:\n")
-        try:
-            if int(answer) and int(answer) in range(1, 31):
-                break
-            elif int(answer) > 0 or int(answer) > 30:
-                print("Введено значение больше или меньше 30")
-        except:
-            if answer.isalpha():
-                print("Введены буквы")
-            else:
-                print("Введены непонятные символа")
-    return int(answer)
 
 
 def decoration(word, symbol):
@@ -190,6 +128,14 @@ def score():
     pass
 
 
+def is_valid():
+    """
+    Проверяет введенное значение на валидность.
+    Требования: Число от 1-1000 в зависимости от сложности
+    :return:
+    """
+    pass
+
 
 def game():
     pass
@@ -197,5 +143,4 @@ def game():
 
 game_number = 0  # Счетчик количество игр
 
-while True:
-    menu(game_number)
+menu(game_number)
