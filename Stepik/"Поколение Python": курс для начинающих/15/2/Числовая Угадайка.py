@@ -7,7 +7,8 @@ Help = """
 даётся информация, больше или меньше введенное число, чем загаданное,
 и так до тех пор, пока число не будет угадано. По завершению
 игра показывает среднее арифметическое число попыток для диапазона.'
-"""
+"""  # Переписать правила игры!!!!
+
 
 def menu(game_num):
     """
@@ -30,7 +31,7 @@ def menu(game_num):
     decoration('', '-')
     number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        pass
+        menu_level(game_num)
     elif number == 2:
         pass
     elif number == 3:
@@ -41,6 +42,32 @@ def menu(game_num):
         print("Спасибо за игру!")
         time.sleep(1)
         exit()
+
+
+def menu_level(game_num):
+    """
+    Меню выбора сложности:
+    1)Легкая: до 30
+    2)Средняя: до 50
+    3)Тяжелая: до 100
+    :return:
+    """
+    decoration('Меню', '-')
+    decoration_2("Выберете сложность игры:")
+    decoration_2("  1)Легкая: до 30")
+    decoration_2("  2)Средняя: до 50")
+    decoration_2("  3)Тяжелая: до 100")
+    decoration_2("  4)Назад в меню")
+    decoration('', '-')
+    number = fool_protect_menu(input("Выберете номер в меню: "))
+    if number == 1:
+        pass
+    elif number == 2:
+        pass
+    elif number == 3:
+        pass
+    elif number == 4:
+        menu(game_num)
 
 
 def fool_protect_menu(number):
@@ -111,10 +138,6 @@ def is_valid():
 
 
 def game():
-    pass
-
-
-def level():
     pass
 
 
