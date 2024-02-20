@@ -32,7 +32,7 @@ def menu(game_num):
     decoration('', '-')
     number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        menu_level(game_num)
+        menu_level()
     elif number == 2:
         pass
     elif number == 3:
@@ -45,7 +45,7 @@ def menu(game_num):
         exit()
 
 
-def menu_level(game_num):
+def menu_level():
     """
     Меню выбора сложности:
     1)Легкая: до 30
@@ -62,10 +62,15 @@ def menu_level(game_num):
     decoration('', '-')
     number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
+        # Создать цикл повтора и вывести в функцию
         random_num = int(randint(1, 31))
         print(random_num)
-        while check_answer(random_num, is_valid()):  # разобраться с павтором при неправильных и правильных ответахъ
-            game_num += 1  # создать счетчик не работает
+        while check_answer(random_num, is_valid()):
+            pass
+            # count_game += 1  # создать счетчик не работает
+        # s = input("Продолжить игру?")
+        # if s == 1:
+        #     check_answer(random_num, is_valid())
 
         # attempt = 0
         # number = input()
@@ -74,12 +79,12 @@ def menu_level(game_num):
         #     print(f"Это число!, {random_num}\nПопытка №{attempt}")
         #     number = is_valid()
         #     attempt += 1
-            # if answer:
-            #     if check_answer(answer):
-            #         game_count += 1
-            #         attempt = 0
-            #     else:
-            #         game_count = 0  # Доработать не хочет считать нормально!
+        # if answer:
+        #     if check_answer(answer):
+        #         game_count += 1
+        #         attempt = 0
+        #     else:
+        #         game_count = 0  # Доработать не хочет считать нормально!
 
     elif number == 2:
         pass
@@ -94,13 +99,14 @@ def check_answer(random_num, answer_number):
     Сверка ответа с введенным числом.
     :return:
     """
-    answer_number = int(answer_number)
     if answer_number < random_num:
         print("Ваше число меньше загаданного, попробуйте еще разок")
+        return True
     elif answer_number > random_num:
         print("Ваше число больше загаданного, попробуйте еще разок")
+        return True
     else:
-        print("Вы угадали, поздравляем!\nПродолжить игру?")
+        print("Вы угадали, поздравляем!\n")
         return False
     # Разобраться с прохождением дальше по игре и количеству игр
     #     next = is_valid_yes_no()
@@ -110,17 +116,16 @@ def check_answer(random_num, answer_number):
     #         menu(game_count)
 
 
-
 def fool_protect_menu(number):
     """
     Является ли значение числом из меню.
     :return:
     """
-    flag = True
-    while flag:
+    work = True
+    while work:
         try:
             if int(number) and int(number) in range(1, 5):
-                flag = False
+                work = False
             elif int(number) < 0 or int(number) > 4:
                 print("Введен не верный номер, введите номер из меню")
                 number = input("Выберете номер в меню: ")
@@ -190,12 +195,12 @@ def score():
     pass
 
 
-
 def game():
     pass
 
 
 game_number = 0  # Счетчик количество игр
+# count_game = 0  # Считает количество игр в режиме
 
 while True:
     menu(game_number)
