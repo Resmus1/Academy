@@ -10,6 +10,8 @@ Help = """
 игра показывает среднее арифметическое число попыток для диапазона.'
 """  # Переписать правила игры!!!!
 
+# Общие сноски:
+# Разобраться с тем что при вводе отрицательного числа ни чего не выходит
 
 def menu(game_num):
     """
@@ -30,7 +32,7 @@ def menu(game_num):
     decoration_2("  3)Помощь", )
     decoration_2("  4)Выход")
     decoration('', '-')
-    number = fool_protect_menu(input("Выберете номер в меню: "))
+    number = fool_protect_menu(input("Выберете номер в меню: "))  # Первая проверка числа, первое входное значение
     if number == 1:
         menu_level()
     elif number == 2:
@@ -60,32 +62,10 @@ def menu_level():
     decoration_2("  3)Тяжелая: до 100")
     decoration_2("  4)Назад в меню")
     decoration('', '-')
-    number = fool_protect_menu(input("Выберете номер в меню: "))
+    number = fool_protect_menu(input("Выберете номер в меню: "))  # Последующие проверки введенного числа в цикле
     if number == 1:
-        # Создать цикл повтора и вывести в функцию
-        random_num = int(randint(1, 31))
-        print(random_num)
-        while check_answer(random_num, is_valid()):
-            pass
-            # count_game += 1  # создать счетчик не работает
-        # s = input("Продолжить игру?")
-        # if s == 1:
-        #     check_answer(random_num, is_valid())
-
-        # attempt = 0
-        # number = input()
-        # print(number)
-        # while True:
-        #     print(f"Это число!, {random_num}\nПопытка №{attempt}")
-        #     number = is_valid()
-        #     attempt += 1
-        # if answer:
-        #     if check_answer(answer):
-        #         game_count += 1
-        #         attempt = 0
-        #     else:
-        #         game_count = 0  # Доработать не хочет считать нормально!
-
+        easy = 31
+        new_game(easy)
     elif number == 2:
         pass
     elif number == 3:
@@ -94,26 +74,36 @@ def menu_level():
         menu(game_num)
 
 
-def check_answer(random_num, answer_number):
+def new_game(lvl):
+    again_game = True
+    while again_game:
+        attempt = 1
+        random_num = int(randint(1, lvl))
+        print()
+        print('Тестовая функ. Показываю чило', random_num)
+        while check_answer(random_num, is_valid(lvl, attempt), attempt):
+            attempt += 1
+        again_game = False
+
+
+def check_answer(random_num, answer_number, attempt):
     """
     Сверка ответа с введенным числом.
     :return:
     """
     if answer_number < random_num:
-        print("Ваше число меньше загаданного, попробуйте еще разок")
+        print("Ваше число меньше загаданного, попробуйте еще разок\n")
         return True
     elif answer_number > random_num:
-        print("Ваше число больше загаданного, попробуйте еще разок")
+        print("Ваше число больше загаданного, попробуйте еще разок\n")
         return True
     else:
-        print("Вы угадали, поздравляем!\n")
-        return False
-    # Разобраться с прохождением дальше по игре и количеству игр
-    #     next = is_valid_yes_no()
-    #     if next:
-    #         return True
-    #     elif not next:
-    #         menu(game_count)
+        print(f"Вы угадали за {attempt} попыток, поздравляем!\n")
+        choice = input("Вы хотите продолжить игру?\n 1)Да\n 2)Нет\n")
+        if choice == 1:
+            pass
+        elif choice == 2:
+            return False
 
 
 def fool_protect_menu(number):
@@ -139,19 +129,19 @@ def fool_protect_menu(number):
     return int(number)
 
 
-def is_valid():
+def is_valid(lvl, attempt):
     """
-    Проверяет введенное значение,
-    cоответствует ли значение ответу и параметрам
+    Проверяет введенное значение на валидность.
     :return:
     """
     while True:
-        answer = input("Введите число:\n")
+        answer = input(f"Попытка №{attempt}\nВведите число:\n")
+        decoration('Результат', '-')
         try:
-            if int(answer) and int(answer) in range(1, 31):
+            if int(answer) and int(answer) in range(1, lvl):
                 break
-            elif int(answer) > 0 or int(answer) > 30:
-                print("Введено значение больше или меньше 30")
+            elif int(answer) < 0 or int(answer) > lvl:
+                print(f"Введите число от {0} до {lvl - 1}")
         except:
             if answer.isalpha():
                 print("Введены буквы")
