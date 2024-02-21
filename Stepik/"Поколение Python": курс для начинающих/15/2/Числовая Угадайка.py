@@ -10,6 +10,7 @@ Help = """
 игра показывает среднее арифметическое число попыток для диапазона.'
 """  # Переписать правила игры!!!!
 
+
 # Общие сноски:
 # Разобраться с тем что при вводе отрицательного числа ни чего не выходит
 
@@ -76,34 +77,36 @@ def menu_level():
 
 def new_game(lvl):
     again_game = True
+    random_num = int(randint(1, lvl))
     while again_game:
         attempt = 1
-        random_num = int(randint(1, lvl))
-        print()
         print('Тестовая функ. Показываю чило', random_num)
-        while check_answer(random_num, is_valid(lvl, attempt), attempt):
-            attempt += 1
-        again_game = False
+        again_game, random_num = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl)
+        attempt += 1
 
 
-def check_answer(random_num, answer_number, attempt):
+def check_answer(random_num, answer_number, attempt, lvl):
     """
     Сверка ответа с введенным числом.
     :return:
     """
     if answer_number < random_num:
         print("Ваше число меньше загаданного, попробуйте еще разок\n")
-        return True
+        return True, random_num
     elif answer_number > random_num:
         print("Ваше число больше загаданного, попробуйте еще разок\n")
-        return True
+        return True, random_num
     else:
         print(f"Вы угадали за {attempt} попыток, поздравляем!\n")
         choice = input("Вы хотите продолжить игру?\n 1)Да\n 2)Нет\n")
-        if choice == 1:
-            pass
-        elif choice == 2:
-            return False
+        if choice == "1":
+            return True, int(randint(1, lvl))
+        elif choice == "2":
+            return False, None
+        else:
+            print("Неверный ввод.\nПожалуйста, введите 1 для продолжения или 2 для выхода.\n")
+            return check_answer(random_num, answer_number,
+                                attempt, lvl)  # Рекурсивный вызов функции для обработки неверного ввода
 
 
 def fool_protect_menu(number):
@@ -140,9 +143,9 @@ def is_valid(lvl, attempt):
         try:
             if int(answer) and int(answer) in range(1, lvl):
                 break
-            elif int(answer) < 0 or int(answer) > lvl:
+            else:
                 print(f"Введите число от {0} до {lvl - 1}")
-        except:
+        except ValueError:  # ValueError Указывает на явную ошибку ввода текста
             if answer.isalpha():
                 print("Введены буквы")
             else:
