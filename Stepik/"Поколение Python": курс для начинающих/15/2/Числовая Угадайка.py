@@ -14,7 +14,7 @@ Help = """
 # Общие сноски:
 # Разобраться с тем что при вводе отрицательного числа ни чего не выходит
 
-def menu(game_num):
+def menu():
     """
     Меню для взаимодействия с пользователем.
     1. Начать игру
@@ -26,7 +26,7 @@ def menu(game_num):
     """
     decoration('Меню', '-')
     decoration("Добро пожаловать в Игру", ' ')
-    decoration(f"Игра №{game_num}", ' ')
+    decoration_2('')
     decoration_2("Выберете пункт меню:")
     decoration_2("  1)Начать игру")
     decoration_2("  2)Таблица рекордов")
@@ -41,7 +41,7 @@ def menu(game_num):
     elif number == 3:
         print(Help)
         time.sleep(1)
-        menu(game_num)
+        menu()
     elif number == 4:
         print("Спасибо за игру!")
         time.sleep(1)
@@ -68,45 +68,51 @@ def menu_level():
         easy = 31
         new_game(easy)
     elif number == 2:
-        pass
+        normal = 51
+        new_game(normal)
     elif number == 3:
-        pass
+        hard = 100
+        new_game(hard)
     elif number == 4:
         menu(game_num)
 
 
-def new_game(lvl):
+def new_game(lvl, new_game_num=1):
     again_game = True
     random_num = int(randint(1, lvl))
     attempt = 0
     while again_game:
+        decoration(f"Игра №{new_game_num}", '-')
+        print("TEST", random_num)
         attempt += 1
-        again_game, random_num, attempt = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl)
+        again_game, random_num, attempt, new_game_num = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl,
+                                                                     new_game_num)
 
 
-
-def check_answer(random_num, answer_number, attempt, lvl):
+def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
     """
     Сверка ответа с введенным числом.
     :return:
     """
     if answer_number < random_num:
-        print("Ваше число меньше загаданного, попробуйте еще разок\n")
-        return True, random_num, attempt
+        print("Ваше число меньше загаданного\n")
+        return True, random_num, attempt, new_game_num
     elif answer_number > random_num:
-        print("Ваше число больше загаданного, попробуйте еще разок\n")
-        return True, random_num, attempt
+        print("Ваше число больше загаданного\n")
+        return True, random_num, attempt, new_game_num
     else:
         print(f"Вы угадали за {attempt} попыток, поздравляем!\n")
+        decoration('', '-')
         choice = input("Вы хотите продолжить игру?\n 1)Да\n 2)Нет\n")
         if choice == "1":
-            return True, int(randint(1, lvl)), 0
+            new_game_num += 1
+            return True, int(randint(1, lvl)), 0, new_game_num
         elif choice == "2":
-            return False, None, None
+            return False, None, None, None
         else:
             print("Неверный ввод.\nПожалуйста, введите 1 для продолжения или 2 для выхода.\n")
             return check_answer(random_num, answer_number,
-                                attempt, lvl)  # Рекурсивный вызов функции для обработки неверного ввода
+                                attempt, lvl, new_game_num)  # Рекурсивный вызов функции для обработки неверного ввода
 
 
 def fool_protect_menu(number):
@@ -140,6 +146,7 @@ def is_valid(lvl, attempt):
     while True:
         answer = input(f"Попытка №{attempt}\nВведите число:\n")
         decoration('Результат', '-')
+        print()
         try:
             if int(answer) and int(answer) in range(1, lvl):
                 break
@@ -196,4 +203,4 @@ game_number = 0  # Счетчик количество игр
 # count_game = 0  # Считает количество игр в режиме
 
 while True:
-    menu(game_number)
+    menu()
