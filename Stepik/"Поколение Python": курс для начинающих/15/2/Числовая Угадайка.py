@@ -12,17 +12,11 @@ Help = """
 
 
 # Общие сноски:
-# Разобраться с тем что при вводе отрицательного числа ни чего не выходит
-
+# Добавить очки и вывод очков.
+# Прогнать код через Интеллект
 def menu():
     """
     Меню для взаимодействия с пользователем.
-    1. Начать игру
-    2. Таблица счета за все игры
-    3. Помощь
-    4. Выход из игры
-
-    :return:
     """
     decoration('Меню', '-')
     decoration("Добро пожаловать в Игру", ' ')
@@ -49,11 +43,7 @@ def menu():
 
 def menu_level():
     """
-    Меню выбора сложности:
-    1)Легкая: до 30
-    2)Средняя: до 50
-    3)Тяжелая: до 100
-    :return:
+    Меню выбора сложности
     """
     decoration('Меню', '-')
     decoration_2("Выберете сложность игры:")
@@ -77,6 +67,9 @@ def menu_level():
 
 
 def new_game(lvl, new_game_num=1):
+    """
+    Новая Игра.
+    """
     again_game = True
     random_num = int(randint(1, lvl))
     attempt = 0
@@ -91,7 +84,6 @@ def new_game(lvl, new_game_num=1):
 def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
     """
     Сверка ответа с введенным числом.
-    :return:
     """
     if attempt >= 7:
         decoration("Вы проиграли!", '-')
@@ -122,7 +114,6 @@ def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
 def fool_protect_menu(number):
     """
     Является ли значение числом из меню.
-    :return:
     """
     work = True
     while work:
@@ -145,7 +136,6 @@ def fool_protect_menu(number):
 def is_valid(lvl, attempt):
     """
     Проверяет введенное значение на валидность.
-    :return:
     """
     while True:
         answer = input(f"Попытка №{attempt}\nВведите число:\n")
@@ -168,7 +158,6 @@ def decoration(word, symbol):
     """
     Полосочка для декорации в меню.
     Указывается параметр, который будет по центру линий.
-    :return:
     """
     print('-', end='')
     line = int((36 - len(word)) / 2)
@@ -184,7 +173,6 @@ def decoration(word, symbol):
 def decoration_2(word):
     """
     Выравнивает текст в меню по левому краю и создает общую рамку.
-    :return:
     """
     print('-', end='')
     print(' ', word, end='')
@@ -194,7 +182,6 @@ def decoration_2(word):
 def score():
     """
     Считает очки, создает таблицу лидеров.
-    :return:
     """
     pass
 
