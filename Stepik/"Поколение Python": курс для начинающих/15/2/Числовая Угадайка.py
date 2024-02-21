@@ -4,16 +4,14 @@ from random import randint
 
 Help = """
 Это игра, в которой требуется угадать число,
-загаданное компьютером в диапазоне чисел от 1 до 100. После ввода числа
-даётся информация, больше или меньше введенное число, чем загаданное,
-и так до тех пор, пока число не будет угадано. По завершению
-игра показывает среднее арифметическое число попыток для диапазона.'
-"""  # Переписать правила игры!!!!
+Здесь есть выбор сложности каждая сложность дает разное количество очков
+После ввода числа даётся информация, больше или меньше введенное число, чем загаданное,
+и так до тех пор, пока число не будет угадано или попытки не закончатся.
+"""
+
+player_score = {}
 
 
-# Общие сноски:
-# Добавить очки и вывод очков.
-# Прогнать код через Интеллект
 def menu():
     """
     Меню для взаимодействия с пользователем.
@@ -27,11 +25,21 @@ def menu():
     decoration_2("  3)Помощь", )
     decoration_2("  4)Выход")
     decoration('', '-')
-    number = fool_protect_menu(input("Выберете номер в меню: "))  # Первая проверка числа, первое входное значение
+    number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        menu_level()
+        name_player = input("Введите свое имя: ")
+        if name_player in player_score:
+            menu_level(name_player)
+        else:
+            player_score[name_player] = 0
+            menu_level(name_player)
     elif number == 2:
-        pass
+        decoration('Рекорды', '-')
+        sorted_player_score = sorted(player_score.items(),
+                                     key=lambda x: x[1], reverse=True)
+        for index, (name, score) in enumerate(sorted_player_score):
+            print(f"{index + 1}. {name} = {score} очков.")
+        print()
     elif number == 3:
         print(Help)
         menu()
@@ -41,7 +49,7 @@ def menu():
         exit()
 
 
-def menu_level():
+def menu_level(name_player):
     """
     Меню выбора сложности
     """
@@ -52,16 +60,22 @@ def menu_level():
     decoration_2("  3)Тяжелая: до 100")
     decoration_2("  4)Назад в меню")
     decoration('', '-')
-    number = fool_protect_menu(input("Выберете номер в меню: "))  # Последующие проверки введенного числа в цикле
+    number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        easy = 31
-        new_game(easy)
+        easy = 30
+        score = new_game(easy)
+        player_score[name_player] += score
+        print(f"Ваши очки за эту игру: {score}")
     elif number == 2:
-        normal = 51
-        new_game(normal)
+        normal = 50
+        score = new_game(normal)
+        player_score[name_player] += score * 2
+        print(f"Ваши очки за эту игру: {score * 2}")
     elif number == 3:
         hard = 100
-        new_game(hard)
+        score = new_game(hard)
+        player_score[name_player] += score * 3
+        print(f"Ваши очки за эту игру: {score * 3}")
     elif number == 4:
         menu()
 
@@ -77,8 +91,9 @@ def new_game(lvl, new_game_num=1):
         decoration(f"Игра №{new_game_num}", '-')
         print("TEST", random_num)
         attempt += 1
-        again_game, random_num, attempt, new_game_num = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl,
-                                                                     new_game_num)
+        again_game, random_num, attempt, new_game_num = check_answer(
+            random_num, is_valid(lvl, attempt), attempt, lvl, new_game_num)
+    return new_game_num
 
 
 def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
@@ -89,7 +104,7 @@ def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
         decoration("Вы проиграли!", '-')
         decoration(f"Вы сыграли {new_game_num} игр", '-')
         print()
-        return False, None, None, None
+        return False, None, None, new_game_num - 1
     elif answer_number < random_num:
         print("Ваше число меньше загаданного\n")
         return True, random_num, attempt, new_game_num
@@ -104,11 +119,12 @@ def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
             new_game_num += 1
             return True, int(randint(1, lvl)), 0, new_game_num
         elif choice == "2":
-            return False, None, None, None
+            return False, None, None, new_game_num
         else:
-            print("Неверный ввод.\nПожалуйста, введите 1 для продолжения или 2 для выхода.\n")
+            print("Неверный ввод.\nПожалуйста, введите 1 "
+                  "для продолжения или 2 для выхода.\n")
             return check_answer(random_num, answer_number,
-                                attempt, lvl, new_game_num)  # Рекурсивный вызов функции для обработки неверного ввода
+                                attempt, lvl, new_game_num)
 
 
 def fool_protect_menu(number):
@@ -138,7 +154,7 @@ def is_valid(lvl, attempt):
     Проверяет введенное значение на валидность.
     """
     while True:
-        answer = input(f"Попытка №{attempt}\nВведите число:\n")
+        answer = input(f"Осталось {8 - attempt} попыток.\nВведите число:\n")
         decoration('Результат', '-')
         print()
         try:
@@ -146,7 +162,7 @@ def is_valid(lvl, attempt):
                 break
             else:
                 print(f"Введите число от {1} до {lvl - 1}")
-        except ValueError:  # ValueError Указывает на явную ошибку ввода текста
+        except ValueError:
             if answer.isalpha():
                 print("Введены буквы")
             else:
@@ -177,13 +193,6 @@ def decoration_2(word):
     print('-', end='')
     print(' ', word, end='')
     print(' ' * (33 - len(word)), '-')
-
-
-def score():
-    """
-    Считает очки, создает таблицу лидеров.
-    """
-    pass
 
 
 while True:
