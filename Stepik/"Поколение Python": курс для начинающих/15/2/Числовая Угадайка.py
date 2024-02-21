@@ -78,11 +78,11 @@ def menu_level():
 def new_game(lvl):
     again_game = True
     random_num = int(randint(1, lvl))
+    attempt = 0
     while again_game:
-        attempt = 1
-        print('Тестовая функ. Показываю чило', random_num)
-        again_game, random_num = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl)
         attempt += 1
+        again_game, random_num, attempt = check_answer(random_num, is_valid(lvl, attempt), attempt, lvl)
+
 
 
 def check_answer(random_num, answer_number, attempt, lvl):
@@ -92,17 +92,17 @@ def check_answer(random_num, answer_number, attempt, lvl):
     """
     if answer_number < random_num:
         print("Ваше число меньше загаданного, попробуйте еще разок\n")
-        return True, random_num
+        return True, random_num, attempt
     elif answer_number > random_num:
         print("Ваше число больше загаданного, попробуйте еще разок\n")
-        return True, random_num
+        return True, random_num, attempt
     else:
         print(f"Вы угадали за {attempt} попыток, поздравляем!\n")
         choice = input("Вы хотите продолжить игру?\n 1)Да\n 2)Нет\n")
         if choice == "1":
-            return True, int(randint(1, lvl))
+            return True, int(randint(1, lvl)), 0
         elif choice == "2":
-            return False, None
+            return False, None, None
         else:
             print("Неверный ввод.\nПожалуйста, введите 1 для продолжения или 2 для выхода.\n")
             return check_answer(random_num, answer_number,
