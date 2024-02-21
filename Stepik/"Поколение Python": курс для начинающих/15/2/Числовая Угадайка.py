@@ -1,7 +1,6 @@
 # https://stepik.org/lesson/349845/step/1?unit=333700
 import time
 from random import randint
-from math import log2, ceil
 
 Help = """
 Это игра, в которой требуется угадать число,
