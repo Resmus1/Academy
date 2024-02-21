@@ -40,7 +40,6 @@ def menu():
         pass
     elif number == 3:
         print(Help)
-        time.sleep(1)
         menu()
     elif number == 4:
         print("Спасибо за игру!")
@@ -74,7 +73,7 @@ def menu_level():
         hard = 100
         new_game(hard)
     elif number == 4:
-        menu(game_num)
+        menu()
 
 
 def new_game(lvl, new_game_num=1):
@@ -94,7 +93,12 @@ def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
     Сверка ответа с введенным числом.
     :return:
     """
-    if answer_number < random_num:
+    if attempt >= 7:
+        decoration("Вы проиграли!", '-')
+        decoration(f"Вы сыграли {new_game_num} игр", '-')
+        print()
+        return False, None, None, None
+    elif answer_number < random_num:
         print("Ваше число меньше загаданного\n")
         return True, random_num, attempt, new_game_num
     elif answer_number > random_num:
@@ -126,14 +130,14 @@ def fool_protect_menu(number):
             if int(number) and int(number) in range(1, 5):
                 work = False
             elif int(number) < 0 or int(number) > 4:
-                print("Введен не верный номер, введите номер из меню")
+                print("Введен не верный номер")
                 number = input("Выберете номер в меню: ")
-        except:
+        except ValueError:
             if number.isalpha():
-                print("Введены буквы, введите номер из меню")
+                print("Введены буквы")
                 number = input("Выберете номер в меню: ")
             else:
-                print("Введены непонятные символа, введите номер из меню")
+                print("Введены непонятные символа")
                 number = input("Выберете номер в меню: ")
     return int(number)
 
@@ -151,7 +155,7 @@ def is_valid(lvl, attempt):
             if int(answer) and int(answer) in range(1, lvl):
                 break
             else:
-                print(f"Введите число от {0} до {lvl - 1}")
+                print(f"Введите число от {1} до {lvl - 1}")
         except ValueError:  # ValueError Указывает на явную ошибку ввода текста
             if answer.isalpha():
                 print("Введены буквы")
@@ -194,13 +198,6 @@ def score():
     """
     pass
 
-
-def game():
-    pass
-
-
-game_number = 0  # Счетчик количество игр
-# count_game = 0  # Считает количество игр в режиме
 
 while True:
     menu()
