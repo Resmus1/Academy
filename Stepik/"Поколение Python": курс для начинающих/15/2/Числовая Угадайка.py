@@ -1,6 +1,7 @@
 # https://stepik.org/lesson/349845/step/1?unit=333700
 import time
 from random import randint
+from math import log2, ceil
 
 Help = """
 Это игра, в которой требуется угадать число,
@@ -62,20 +63,23 @@ def menu_level(name_player):
     decoration('', '-')
     number = fool_protect_menu(input("Выберете номер в меню: "))
     if number == 1:
-        easy = 30
+        easy = 31
         score = new_game(easy)
         player_score[name_player] += score
         print(f"Ваши очки за эту игру: {score}")
+        print()
     elif number == 2:
-        normal = 50
+        normal = 51
         score = new_game(normal)
         player_score[name_player] += score * 2
         print(f"Ваши очки за эту игру: {score * 2}")
+        print()
     elif number == 3:
-        hard = 100
+        hard = 101
         score = new_game(hard)
         player_score[name_player] += score * 3
         print(f"Ваши очки за эту игру: {score * 3}")
+        print()
     elif number == 4:
         menu()
 
@@ -89,7 +93,6 @@ def new_game(lvl, new_game_num=1):
     attempt = 0
     while again_game:
         decoration(f"Игра №{new_game_num}", '-')
-        print("TEST", random_num)
         attempt += 1
         again_game, random_num, attempt, new_game_num = check_answer(
             random_num, is_valid(lvl, attempt), attempt, lvl, new_game_num)
@@ -100,9 +103,10 @@ def check_answer(random_num, answer_number, attempt, lvl, new_game_num):
     """
     Сверка ответа с введенным числом.
     """
-    if attempt >= 7:
+    if attempt > 7:
         decoration("Вы проиграли!", '-')
         decoration(f"Вы сыграли {new_game_num} игр", '-')
+        time.sleep(0.5)
         print()
         return False, None, None, new_game_num - 1
     elif answer_number < random_num:
