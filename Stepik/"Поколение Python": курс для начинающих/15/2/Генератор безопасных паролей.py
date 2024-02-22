@@ -60,8 +60,8 @@ question_password = {
 
 for _ in range(question_password['passwords']):
     print(generate_password(question_password['length'],
-                             question_password['enable_num'],
-                             question_password['enable_up'],
-                             question_password['enable_low'],
-                             question_password['enable_symbol'],
-                             question_password['disable_similar_symbol']))
+                            question_password['enable_num'],
+                            question_password['enable_up'],
+                            question_password['enable_low'],
+                            question_password['enable_symbol'],
+                            question_password['disable_similar_symbol']))
