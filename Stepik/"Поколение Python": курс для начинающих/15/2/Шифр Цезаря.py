@@ -1,27 +1,41 @@
 # https://stepik.org/lesson/352860/step/4?unit=336821
-
-# direction = ('encryption', 'decryption')
-# language = {'eng': [122, 26], 'rus': [1103, 32]}
-# input_rotate = 10
-# input_text = 'Блажен, кто верует, тепло ему на свете!'.lower()
-setting = {'direction': 1, 'language': {'eng': [122, 26], 'rus': [1103, 32]}, 'input_rotate': 0, 'input_text': ''}
-
-def setting_encrypt():
-    """
-    Записать в функцию параметры из настроек, совместить по параметрам с генератором паролей
-    """
+def style_code():
+    actions = {'1': 'encryption', '2': 'decryption'}
+    while True:
+        code = input("Выберите действие\n1) Зашифровать\n2) Расшифровать\n> ")
+        if code in actions:
+            return actions[code]
 
 
-def crypt(text, max_symbol, max_letter, rotate):
+def lang_choice():
+    languages = {'1': (122, 26), '2': (1103, 32)}
+    while True:
+        lang = input("Выберите язык\n1) Английский\n2) Русский\n> ")
+        if lang in languages:
+            return languages[lang]
+
+
+def check_num():
+    while True:
+        try:
+            return int(input("Введите количество шагов в кодировке\n> "))
+        except ValueError:
+            print('Ошибка! Введите цифры\n')
+
+
+def crypt(text, style, lang, rotate):
     word = ''
-    for i in text:
-        if ord(i) + rotate > max_symbol:
-            word += chr((ord(i) - (max_letter - rotate)))
-        elif i in (' ', '?', '!', ',', '.'):
-            word += i
+    if style == 'decryption':
+        rotate = -rotate
+    for char in text:
+        if char.isalpha():
+            if ord(char) + rotate > lang[0]:
+                word += chr(ord(char) - (lang[1] - rotate))
+            else:
+                word += chr(ord(char) + rotate)
         else:
-            word += chr(ord(i) + rotate)
+            word += char
     return word.capitalize()
 
 
-print(crypt(input_text, language['rus'][0], language['rus'][1], input_rotate))
+print(crypt(input("Введите текст\n> ").lower(), style_code(), lang_choice(), check_num()))
