@@ -26,15 +26,23 @@ def check_num():
 def crypt(text, style, lang, rotate):
     word = ''
     if style == 'decryption':
-        rotate = -rotate
-    for char in text:
-        if char.isalpha():
-            if ord(char) + rotate > lang[0]:
-                word += chr(ord(char) - (lang[1] - rotate))
+        for char in text:
+            if char.isalpha():
+                if ord(char) - rotate < (lang[0] - (lang[1])):
+                    word += chr(lang[0]-(rotate-(ord(char) - (lang[0] - (lang[1])))))
+                else:
+                    word += chr(ord(char) - rotate)
             else:
-                word += chr(ord(char) + rotate)
-        else:
-            word += char
+                word += char
+    elif style == 'encryption':
+        for char in text:
+            if char.isalpha():
+                if ord(char) + rotate > lang[0]:
+                    word += chr(ord(char) - (lang[1] - rotate))
+                else:
+                    word += chr(ord(char) + rotate)
+            else:
+                word += char
     return word.capitalize()
 
 
