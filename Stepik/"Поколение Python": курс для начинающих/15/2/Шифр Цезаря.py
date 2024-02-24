@@ -46,4 +46,10 @@ def crypt(text, style, lang, rotate):
     return word.capitalize()
 
 
-print(crypt(input("Введите текст\n> ").lower(), style_code(), lang_choice(), check_num()))
+# print(crypt(input("Введите текст\n> ").lower(), style_code(), lang_choice(), check_num()))
+
+# Нужно оптимизироват крипт
+# Нужно сделать надстройку для брута
+for i in range(0, 25):
+    print(i)
+    print(crypt("Hawnj pk swhg xabkna ukq nqj.".lower(), 'encryption', (122, 26), i))
