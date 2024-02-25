@@ -62,16 +62,13 @@ def crypt(text, style, lang, crypt_rotate):
 def brute(text, style, brute_lang_choice, brute_rotate):
     while True:
         go_brute = input('Проходим от 1-го до последнего шага? (Yes / No)\n').lower()
-        if go_brute in ('yes', 'no'):
-            if go_brute == 'yes':
-                brute_rotate += 1
-                for i in range(0, brute_rotate):
-                    print(f'{i}) {crypt(text, style, brute_lang_choice, i)}')
-                    brute_rotate -=1
-                    if brute_rotate == 0:
-                        return
-            else:
-                return print(crypt(text, style, brute_lang_choice, brute_rotate))
+        if go_brute == 'yes':
+            for i in range(brute_rotate + 1):
+                print(f'{i}) {crypt(text, style, brute_lang_choice, i)}')
+                if i == brute_rotate:
+                    return
+        elif go_brute == 'no':
+            print(crypt(text, style, brute_lang_choice, brute_rotate))
         else:
             print("Вы ввели неверный ответ.")
 
