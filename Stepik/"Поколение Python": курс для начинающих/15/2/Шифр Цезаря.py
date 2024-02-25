@@ -15,41 +15,68 @@ def lang_choice():
             return languages[lang]
 
 
-def check_num():
+def rotate(lang):
     while True:
         try:
-            return int(input("Введите количество шагов в кодировке\n> "))
+            turn = int(input("Введите количество шагов в кодировке\n> "))
+            if turn > lang[1]-1:
+                print(f"Введите число не более {lang[1]-1} шага")
+            else:
+                return turn
         except ValueError:
             print('Ошибка! Введите цифры\n')
+
+
+def decryption(word, text, lang, rotate):
+    for char in text:
+        if char.isalpha():
+            if ord(char) - rotate < (lang[0] - (lang[1])):
+                word += chr(lang[0] - (rotate - (ord(char) - (lang[0] - (lang[1])))))  # Нужно исправить, в аншлиской расшифровке попадает на символ а не букву!
+            else:
+                word += chr(ord(char) - rotate)
+        else:
+            word += char
+    return word
+
+
+def encryption(word, text, lang, rotate):
+    for char in text:
+        if char.isalpha():
+            if ord(char) + rotate > lang[0]:
+                word += chr(ord(char) - (lang[1] - rotate))
+            else:
+                word += chr(ord(char) + rotate)
+        else:
+            word += char
+    return word
 
 
 def crypt(text, style, lang, rotate):
     word = ''
     if style == 'decryption':
-        for char in text:
-            if char.isalpha():
-                if ord(char) - rotate < (lang[0] - (lang[1])):
-                    word += chr(lang[0]-(rotate-(ord(char) - (lang[0] - (lang[1])))))
-                else:
-                    word += chr(ord(char) - rotate)
-            else:
-                word += char
+        return decryption(word, text, lang, rotate).capitalize()
     elif style == 'encryption':
-        for char in text:
-            if char.isalpha():
-                if ord(char) + rotate > lang[0]:
-                    word += chr(ord(char) - (lang[1] - rotate))
-                else:
-                    word += chr(ord(char) + rotate)
+        return encryption(word, text, lang, rotate).capitalize()
+
+
+def brute(text, style, lang_choice, rotate):
+    while True:
+        go_brute = input('Проходим от 1-го до последнего шага? (Yes / No)\n').lower()
+        if go_brute in ('yes', 'no'):
+            if go_brute == 'yes':
+                for i in range(0, rotate + 1):
+                    print(f'{i}) {crypt(text, style, lang_choice, i)}')
             else:
-                word += char
-    return word.capitalize()
+                return print(crypt(text, style, lang_choice, rotate))
+        else:
+            print("Вы ввели неверный ответ.")
 
 
-# print(crypt(input("Введите текст\n> ").lower(), style_code(), lang_choice(), check_num()))
-
-# Нужно оптимизироват крипт
 # Нужно сделать надстройку для брута
-for i in range(0, 25):
-    print(i)
-    print(crypt("Hawnj pk swhg xabkna ukq nqj.".lower(), 'encryption', (122, 26), i))
+
+text = input("Введите текст\n> ").lower()
+style = style_code()
+lang_choice = lang_choice()
+rotate = rotate(lang_choice)
+
+brute(text, style, lang_choice, rotate)
