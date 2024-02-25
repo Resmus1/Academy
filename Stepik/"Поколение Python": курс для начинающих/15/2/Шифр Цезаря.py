@@ -76,8 +76,6 @@ def brute(text, style, brute_lang_choice, brute_rotate):
             print("Вы ввели неверный ответ.")
 
 
-# Нужно сделать надстройку для брута
-
 input_text = input("Введите текст\n> ").lower()
 input_style = style_code()
 input_lang_choice = lang_choice()
