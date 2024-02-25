@@ -34,7 +34,6 @@ mark_x = ['X'] * 4 + random_list
 # Запись заголовка
 ws.append(['ФИО', *value31])
 
-
 # изменяем ширину колонки
 ws.column_dimensions['A'].width = 20
 
