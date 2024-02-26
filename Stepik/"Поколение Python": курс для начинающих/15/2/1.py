@@ -14,19 +14,6 @@ def check_char(test_char):
         return print(chr(ord(test_char) + cnt_char), end='')
 
 
-def shift_char(test_char, cnt_char):
-    if test_char.isupper():
-        base = 65
-    else:
-        base = 96
-
-    shifted = ord(test_char) + cnt_char
-    if shifted > base + 26:
-        print(chr(base + 26 - (shifted - base - 1)), end='')
-    else:
-        print(chr(shifted), end='')
-
-
 text = 'Day, mice. "Year" is a mistake!'.split()
 
 for word in text:
