@@ -6,29 +6,28 @@ from openpyxl.styles import Font, Alignment
 
 def open_file_surnames():
     """
-    Открывает текстовый файл и возвращает список строк из него.
+    Открывает файл таблицы, и возвращает список строк из него.
     """
     global surname_list
-    # Укажите путь к вашему файлу Excel
-    file_path = filedialog.askopenfilename()
-    # Открываем файл Excel
-    workbook = load_workbook(file_path)
-    # Получаем активный лист
-    sheet = workbook.active
+    sheet = open_exel()
     # Проходимся по каждой строке и выводим значения ячеек в список
     for row in sheet.iter_rows(values_only=True):
         if row[0] is not None:
             surname_list.append(row[0])
-    return surname_list
 
 
-def generation_file_list():
+def open_exel():
     # Укажите путь к вашему файлу Excel
     file_path = filedialog.askopenfilename()
     # Открываем файл Excel
-    workbook = load_workbook(file_path)
+    active_workbook = load_workbook(file_path)
     # Получаем активный лист
-    sheet = workbook.active
+    sheet = active_workbook.active
+    return sheet
+
+
+def generation_file_list():
+    sheet = open_exel()
     # Создание нового файла Excel
     wb = Workbook()
     # Активация активного листа
@@ -95,6 +94,5 @@ btn2 = tk.Button(win, text='Генерация',
 label.pack()
 btn1.pack()
 btn2.pack()
-print()
 
 win.mainloop()
