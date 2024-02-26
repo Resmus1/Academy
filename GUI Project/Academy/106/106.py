@@ -93,7 +93,7 @@ list_data = {}
 
 win = tk.Tk()
 win.geometry(f"400x500+100+200")
-win.title("Парсер по 106-ой")
+win.title("Создание списка по 106-й")
 icon = tk.PhotoImage(file='cleaning_icon.png')
 win.iconphoto(False, icon)
 win.config(bg='#8FBC8F')
