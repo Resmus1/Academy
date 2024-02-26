@@ -17,6 +17,9 @@ def open_file_surnames():
 
 
 def open_exel():
+    """
+    Открывает файл ексель и получает активный лист
+    """
     # Укажите путь к вашему файлу Excel
     file_path = filedialog.askopenfilename()
     # Открываем файл Excel
@@ -26,12 +29,10 @@ def open_exel():
     return sheet
 
 
-def generation_file_list():
-    sheet = open_exel()
-    # Создание нового файла Excel
-    wb = Workbook()
-    # Активация активного листа
-    ws = wb.active
+def edit_exel(ws):
+    """
+    Редактирование пустого exel
+    """
     # Запись заголовка
     ws.append(['ФИО', 'Дата'])
     # Устанавливаем шрифт для текста в указанных ячейках выравнивает их по центру
@@ -44,10 +45,14 @@ def generation_file_list():
     for cell in cells_to_format_size:
         ws.column_dimensions[cell].width = 30
         ws.column_dimensions[cell].font = Font(size=14)
+    return ws
 
-    list_data = {}
 
-    # Проходимся по каждой строке и выводим значения ячеек в список
+def generate_list(sheet, list_data, ws):
+    """
+    Проходимся по каждой строке и выводим значения ячеек в словарь,
+    а затем отправляем в список и записываем в ексель
+    """
     for row in sheet.iter_rows(values_only=True):
         if row[0] in surname_list:
             i = 0
@@ -56,12 +61,27 @@ def generation_file_list():
                 i += 1
                 if data is not None:
                     list_data[row[0]].append(str(i))
-
     # Переносит список в ексель
     for surname, data_list in list_data.items():
         data_str = [', '.join(data_list)]
         row_data = [surname] + data_str
         ws.append(row_data)
+    return ws
+
+
+def generation_file_list():
+    """
+    Создание нового файла ексель, запись сгенерированого списка и сохранение
+    """
+    sheet = open_exel()
+    # Создание нового файла Excel
+    wb = Workbook()
+    # Активация активного листа
+    ws = wb.active
+
+    edit_exel(ws)
+
+    generate_list(sheet, list_data, ws)
 
     # Сохранение файла
     file_name = '106.xlsx'
@@ -69,6 +89,7 @@ def generation_file_list():
 
 
 surname_list = []
+list_data = {}
 
 win = tk.Tk()
 win.geometry(f"400x500+100+200")
