@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter.messagebox import showinfo
 from openpyxl import *
 from openpyxl.styles import Font, Alignment
 
@@ -14,6 +15,8 @@ def open_file_surnames():
     for row in sheet.iter_rows(values_only=True):
         if row[0] is not None:
             surname_list.append(row[0])
+
+    showinfo(title="Информация", message="Файл с Фамилиями загружен")
 
 
 def open_exel():
@@ -87,33 +90,53 @@ def generation_file_list():
     file_name = '106.xlsx'
     wb.save(file_name)
 
+    showinfo(title="Информация", message="Файл с 106-й создан")
+
+
+def open_info():
+    showinfo(title="Информация", message="Информационное сообщение")
+
 
 surname_list = []
+
 list_data = {}
 
 win = tk.Tk()
-win.geometry(f"400x500+100+200")
+win.geometry(f"400x200+100+200")
 win.title("Создание списка по 106-й")
 icon = tk.PhotoImage(file='cleaning_icon.png')
 win.iconphoto(False, icon)
-win.config(bg='#8FBC8F')
 win.resizable(False, False)
 
-label = tk.Label(text="Создание списка по 106-й",
-                 bg='#8FBC8F',
-                 font=('Arial', 20, 'italic', 'bold'),
-                 )
+for c in range(1): win.columnconfigure(index=c, weight=1)
+for r in range(4): win.rowconfigure(index=r, weight=1)
 
-btn1 = tk.Button(win, text='Выберете Фамилии',
-                 command=open_file_surnames,
-                 )
+top_name = tk.Label(text="Создание списка по 106-й",
+                    font=('Arial', 20, 'italic', 'bold'),
+                    )
 
-btn2 = tk.Button(win, text='Генерация',
-                 command=generation_file_list,
-                 )
+check_surname_info = tk.Label(text="Выберете файл с Фамилиями которые нужно найти:",
+                              font=('Arial', 11, 'italic'),
+                              )
 
-label.pack()
-btn1.pack()
-btn2.pack()
+generation_info = tk.Label(text="Выберете файл со 106-й:",
+                           font=('Arial', 11, 'italic'),
+                           )
+
+check_surname = tk.Button(win, text='Выберете Фамилии',
+                          command=open_file_surnames,
+                          font=('Arial', 10, 'bold'),
+                          )
+
+generation = tk.Button(win, text='Генерация',
+                       command=generation_file_list,
+                       font=('Arial', 10, 'bold'),
+                       )
+
+top_name.grid()
+check_surname_info.grid(row=1, ipadx=150, ipady=6, padx=5, )
+check_surname.grid(row=2, ipadx=150, ipady=6, padx=5)
+generation_info.grid(row=3, ipadx=150, ipady=6, padx=5)
+generation.grid(row=4, ipadx=150, ipady=6, padx=5)
 
 win.mainloop()
