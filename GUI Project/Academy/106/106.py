@@ -91,6 +91,7 @@ def generation_file_list():
     wb.save(file_name)
 
     showinfo(title="Информация", message="Файл с 106-й создан")
+    exit()
 
 
 def open_info():
