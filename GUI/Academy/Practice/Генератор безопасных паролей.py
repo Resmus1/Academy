@@ -3,7 +3,7 @@ import tkinter as tk
 win = tk.Tk()
 win.geometry(f"600x300+100+200")
 win.title("Генератор безопасных паролей")
-icon = tk.PhotoImage(file='/home/deck/pythonProject/pythonProject/Academy/GUI Project/Academy/img/password_icon.png')
+icon = tk.PhotoImage(file='/GUI/Academy/img/password_icon.png')
 win.iconphoto(False, icon)
 win.config(bg='#CD853F')
 win.resizable(False, False)

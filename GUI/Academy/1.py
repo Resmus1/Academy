@@ -5,7 +5,7 @@ import tkinter as tk
 win = tk.Tk()
 h = 500
 w = 600
-icon = tk.PhotoImage(file='img/test.png')
+icon = tk.PhotoImage(file='../Projects/img/test.png')
 win.iconphoto(False, icon)
 win.config(bg='#CD853F')
 win.title('Тестируем Ткинтер')
