@@ -8,12 +8,15 @@ from openpyxl.styles import Font, Alignment
 def open_file_surnames():
     """
     Открывает файл таблицы, и возвращает список строк из него.
+    Создается список только из фамилий для поиска.
     """
     global surname_list
+    global only_surname
     sheet = open_exel()
-    # Проходимся по каждой строке и выводим значения ячеек в список
+    # Проходимся по каждой строке и выводим значения ячеек в 2 списка, один с инициалами для печати, второй без для проверки.
     for row in sheet.iter_rows(values_only=True):
         if row[0] is not None:
+            only_surname.append(row[0].replace('.', '')[0:-3])
             surname_list.append(row[0])
     showinfo(title="Информация", message="Файл с Фамилиями загружен")
 
@@ -59,7 +62,9 @@ def generate_list(sheet, list_data, ws):
     """
 
     for row in sheet.iter_rows(values_only=True):
-        if row[1] in surname_list:
+        # Обрезает ячейку, оставляет только фамилию для проверки.
+        s = str(list(row[1:2])[0]).replace('.', '').strip()[0:-3]
+        if s in only_surname:
             i = 0
             list_data[row[1]] = []
             for data in row[2:]:
@@ -85,7 +90,6 @@ def generation_file_list():
     wb = Workbook()
     # Активация активного листа
     ws = wb.active
-
     edit_exel(ws)
 
     generate_list(sheet, list_data, ws)
@@ -103,6 +107,7 @@ def open_info():
 
 
 surname_list = []
+only_surname = []
 
 list_data = {}
 
@@ -138,3 +143,6 @@ tk.Button(win, text='Генерация',
 win.mainloop()
 
 # Левый краешек подредактировать, сделать отступ
+# Нужно сделать вывод не найденных фамилий отдельно в список
+# Нужно разобраться с дублями
+#
