@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter.messagebox import showinfo
 from openpyxl import *
-from openpyxl.styles import Font, Alignment
+from openpyxl.styles import Font, Alignment, Border, Side
 
 
 def open_file_surnames():
@@ -39,6 +39,7 @@ def edit_exel(ws):
     """
     Редактирование пустого exel
     """
+    thins = Side(border_style='thin', color='000000')
     # Запись заголовка
     ws.append(['№', 'ФИО дата'])
     # Устанавливаем шрифт для текста в указанных ячейках выравнивает их по центру
@@ -51,7 +52,10 @@ def edit_exel(ws):
     ws.column_dimensions['B'].width = 50
     cells_font = ['A', 'B']
     for cell in cells_font:
-        ws.column_dimensions[cell].font = Font(size=14)
+        col = ws.column_dimensions[f'{cell}']
+        col.font = Font(size=14)
+        # Рисование границ ячеек
+        ws.column_dimensions[cell].border = Border(top=thins, bottom=thins, left=thins, right=thins)
     return ws
 
 
@@ -74,7 +78,6 @@ def generate_list(sheet, list_data, ws):
     # Создается список и переносит список в ексель
     for surname, data_list in list_data.items():
         ws.append([' '] + [f"{surname}          {', '.join(data_list)}"])
-
     return ws
 
 
@@ -142,4 +145,3 @@ win.mainloop()
 # Левый краешек подредактировать, сделать отступ
 # Нужно сделать вывод не найденных фамилий отдельно в список
 # Нужно разобраться с дублями
-#
