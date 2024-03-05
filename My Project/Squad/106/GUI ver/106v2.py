@@ -13,7 +13,8 @@ def open_file_surnames():
     global surname_list
     global only_surname
     sheet = open_exel()
-    # Проходимся по каждой строке и выводим значения ячеек в 2 списка, один с инициалами для печати, второй без для проверки.
+    # Проходимся по каждой строке и выводим значения ячеек в 2 списка, один с инициалами для печати,
+    # второй без для проверки.
     for row in sheet.iter_rows(values_only=True):
         if row[0] is not None:
             only_surname.append(row[0].replace('.', '')[0:-3])
@@ -39,18 +40,17 @@ def edit_exel(ws):
     Редактирование пустого exel
     """
     # Запись заголовка
-    ws.append(['№', 'ФИО', 'Дата'])
+    ws.append(['№', 'ФИО дата'])
     # Устанавливаем шрифт для текста в указанных ячейках выравнивает их по центру
-    cells_to_format_font = ['A1', 'B1', 'C1']
+    cells_to_format_font = ['A1', 'B1']
     for cell in cells_to_format_font:
         ws[cell].font = Font(size=20, bold=True)
         ws[cell].alignment = Alignment(horizontal='center', vertical='center')
     # изменяем ширину колонки
     ws.column_dimensions['A'].width = 5
-    ws.column_dimensions['A'].font = Font(size=14)
-    cells_to_format_size = ['B', 'C']
-    for cell in cells_to_format_size:
-        ws.column_dimensions[cell].width = 30
+    ws.column_dimensions['B'].width = 50
+    cells_font = ['A', 'B']
+    for cell in cells_font:
         ws.column_dimensions[cell].font = Font(size=14)
     return ws
 
@@ -71,13 +71,10 @@ def generate_list(sheet, list_data, ws):
                 i += 1
                 if data in ('х', 'Х', 'дх', 'дХ'):
                     list_data[row[1]].append(str(i))
-    # Переносит список в ексель
-    j = 0
+    # Создается список и переносит список в ексель
     for surname, data_list in list_data.items():
-        j += 1
-        data_str = [', '.join(data_list)]
-        row_data = [f'{str(j)}'] + [surname] + data_str
-        ws.append(row_data)
+        ws.append([' '] + [f"{surname}          {', '.join(data_list)}"])
+
     return ws
 
 
