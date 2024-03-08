@@ -1,6 +1,10 @@
 # https://stepik.org/lesson/415554/step/7?unit=405083
 
-result = {'камень-камень': 'ничья', 'камень-ножницы': 'Тимур', 'камень-бумага': 'Руслан',
-          'ножницы-ножницы': 'ничья', 'ножницы-бумага': 'Тимур', 'ножницы-камень': 'Руслан',
-          "бумага-бумага": 'ничья', 'бумага-камень': 'Тимур', 'бумага-ножницы': 'Руслан'}
-print(result[f"{input()}-{input()}"])
+options = ["камень", "ножницы", "бумага"]
+results = ["ничья", "Руслан", "Тимур"]
+
+timur_move, ruslan_move = input(), input()
+
+case = options.index(timur_move) - options.index(ruslan_move)
+
+print(results[case])
